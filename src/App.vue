@@ -7,26 +7,38 @@
 
 <script>
 import axios from "axios"
+import db from "./firebase/firebaseinit";
+
 export default {
   name: "App",
   data(){
     return{
       APIkey: "49e674f54d20f3dc2943d5fd13e4e436",
-      city: "Dallas"
+      city: "London",
+      cities: []
     }
   },
   created() {
-    this.getCurrentWeather();
+    this.getCityWeather();
   },
   methods: {
+    getCityWeather(){
+      let firebaseDB = db.collection('cities');
+
+      firebaseDB.onSnapshot((snap) => {
+        snap.docChanges().forEach(async(doc) => {
+          console.log(doc);
+        });
+      });
+    },
     getCurrentWeather(){
       axios
-      .get(`api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&appid=${this.APIkey}`)
-      .then(res => {
+      .get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`)
+      .then((res) => {
         console.log(res.data)
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
