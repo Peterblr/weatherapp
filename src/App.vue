@@ -1,5 +1,6 @@
 <template>
-  <div id="nav">
+  <div class="main">
+    <Navigation class="navigation"/>
     <router-view/>
   </div>  
 </template>
@@ -8,13 +9,17 @@
 <script>
 import axios from "axios"
 import db from "./firebase/firebaseinit";
+import Navigation from "./components/Navigation";
 
 export default {
   name: "App",
+  components: { 
+    Navigation
+  },
+
   data(){
     return{
       APIkey: "49e674f54d20f3dc2943d5fd13e4e436",
-      city: "London",
       cities: []
     }
   },
@@ -45,14 +50,7 @@ export default {
          }
         });
       });
-    },
-    getCurrentWeather(){
-      axios
-      .get(`https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`)
-      .then((res) => {
-        console.log(res.data)
-      });
-    },
+    },    
   },
 };
 </script>
@@ -63,5 +61,21 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: "Quicksand", sans-serif;
+}
+
+.main {
+  height: 100vh;
+
+  .navigation {
+    z-index: 99;
+    position: fixed;
+    max-width: 1024px;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .container {
+    padding: 0 20px;
+  }
 }
 </style>
