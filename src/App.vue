@@ -37,9 +37,6 @@ export default {
 
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async(doc) => {
-          console.log(doc.type);
-          console.log(doc);
-
          if (doc.type === 'added' && !doc.doc.Nd) {
            try {
              const response = await axios.get(
@@ -55,6 +52,8 @@ export default {
            }
          } else if (doc.type === 'added' && doc.doc.Nd) {
            this.cities.push(doc.doc.data());
+         } else if (doc.type === 'removed') {
+           this.cities = this.cities.filter(city => city.city !== doc.doc.data().city)
          }
         });
       });

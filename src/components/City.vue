@@ -1,6 +1,6 @@
 <template>
   <div class="city">
-      <i v-if="edit" class="far fa-trash-alt edit" ref="edit"></i>
+      <i v-if="edit" @click="removeCity" class="far fa-trash-alt edit" ref="edit"></i>
       <span>{{this.city.city}}</span>
       <div class="weather">
           <span>
@@ -18,11 +18,31 @@
 </template>
 
 <script>
+import db from "../firebase/firebaseinit";
+
 export default {
     name: "city",
     props: ["city", "edit"],
-    created() {
-        console.log(this.city);
+    created() {},
+    data () {
+        return {
+            id: null,
+        }
+    },
+    methods: {
+        removeCity() {
+            db.collection('cities')
+            .where('city', '==', `${this.city.city}`)
+            .get().then(docs => {
+                docs.forEach(doc => {
+                    this.id = doc.id;
+                });
+            }).then(() => {
+                db.collection('cities')
+                .doc(this.id)
+                .delete();
+            });
+        }
     }
 }
 </script>
