@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <Modal v-if="modalOpen" v-on:close-modal="toggleModal" :APIkey="APIkey" />
-    <Navigation v-on:add-city="toggleModal" />
-    <router-view v-bind:cities="cities" />
+    <Navigation v-on:add-city="toggleModal" v-on:edit-city="toggleEdit" />
+    <router-view v-bind:cities="cities" v-bind:edit="edit" />
   </div>  
 </template>
 
@@ -25,6 +25,7 @@ export default {
       APIkey: "49e674f54d20f3dc2943d5fd13e4e436",
       cities: [],
       modalOpen: null,
+      edit: null,
     }
   },
   created() {
@@ -36,7 +37,10 @@ export default {
 
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async(doc) => {
-         if (doc.type === 'added') {
+          console.log(doc.type);
+          console.log(doc);
+
+         if (doc.type === 'added' && !doc.doc.Nd) {
            try {
              const response = await axios.get(
                `https://api.openweathermap.org/data/2.5/weather?q=${doc.doc.data().city}&units=imperial&APPID=${this.APIkey}`);
@@ -49,13 +53,18 @@ export default {
            } catch (err){
              console.log(err);
            }
+         } else if (doc.type === 'added' && doc.doc.Nd) {
+           this.cities.push(doc.doc.data());
          }
         });
       });
     },  
     toggleModal() {
       this.modalOpen = !this.modalOpen;
-    } 
+    },
+    toggleEdit() {
+      this.edit = !this.edit;
+    }
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="city">
+      <i v-if="edit" class="far fa-trash-alt edit" ref="edit"></i>
       <span>{{this.city.city}}</span>
       <div class="weather">
           <span>
@@ -19,7 +20,7 @@
 <script>
 export default {
     name: "city",
-    props: ['city'],
+    props: ["city", "edit"],
     created() {
         console.log(this.city);
     }
@@ -37,6 +38,17 @@ export default {
     min-height: 250px;
     color: #fff;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    .edit {
+    border-radius: 0px 15px 0 0;
+    border: 10px solid rgb(77, 77, 77);
+    background-color: rgb(77, 77, 77);
+    z-index: 1;
+    font-size: 20px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
 
     span {
         z-index: 1;
