@@ -3,7 +3,7 @@
       <span>{{this.city.city}}</span>
       <div class="weather">
           <span>
-              {{Math.round(this.city.currentWeather.main.temp)}}&deg;
+              {{(Math.round(this.city.currentWeather.main.temp)) - 32}}&deg;
           </span>
           <img :src="require(`../../public/conditions/${this.city.currentWeather.weather[0].icon}.svg`)" alt="">
       </div>
