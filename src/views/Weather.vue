@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import axios from "axios"
-import db from "../firebase/firebaseinit"
+import axios from "axios";
+import db from "../firebase/firebaseinit";
 
 export default {
     name: "Weather",
@@ -19,8 +19,11 @@ export default {
     created() {
         this.getWeather();
     },
+    beforeUnmount() {
+        this.$emit("resetDays");
+    },
     methods: {
-        getWeather () {
+        getWeather() {
             db.collection('cities')
             .where('city', '==', `${this.$route.params.city}`)
             .get().then((docs) => {
@@ -34,12 +37,22 @@ export default {
                         this.forecast = res.data
                     }).then(() => {
                         this.loading = false;
-                        console.log(this.forecast);
-                        console.log(this.currentWeather);
+                        this.getCurrentTime();
                     });
                 })
             })
-        }
+        },
+        getCurrentTime() {
+            const dateObject = new Date();
+            this.currentTime = dateObject.getHours();
+            const sunrise = new Date(this.currentWeather.sys.sunrise * 1000).getHours();
+            const sunset = new Date(this.currentWeather.sys.sunset * 1000).getHours();
+            if (this.currentTime > sunrise && this.currentTime < sunset) {
+                this.$emit('is-day');
+            } else {
+                this.$emit('is-night');
+            }
+        } 
     }
 }
 </script>
