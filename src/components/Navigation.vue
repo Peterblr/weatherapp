@@ -2,6 +2,8 @@
   <header v-if="addCityActive" class="container add-city">
     <nav>
       <span>Add City</span>
+      <br />
+      <span class="training-project">Training Project</span>
       <div class="right">
         <i @click="editCities" ref="editCities" class="far fa-edit"></i>
         <i @click="reloadApp" class="fas fa-sync"></i>
@@ -9,11 +11,14 @@
       </div>
     </nav>
   </header>
+
   <header v-else class="container" :class="{ day: isDay, night: isNight }">
     <nav>
       <router-link class="router-link" :to="{ name: 'AddCity' }">
         <i class="fas fa-plus"></i>
       </router-link>
+      <br />
+      <span class="training-project">Training Project</span>
       <span>
         {{ new Date().toLocaleString("ru", { weekday: "short" }) }},
         {{ new Date().toLocaleString("ru", { month: "short" }) }}
@@ -28,6 +33,7 @@
 export default {
   name: "Navigation",
   props: ["addCityActive", "isDay", "isNight"],
+
   methods: {
     addCity() {
       this.$emit("add-city");
@@ -44,21 +50,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.training-project {
+  font-size: 15px;
+  color: indianred;
+}
+
 .add-city {
   background-color: #313640;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.training-project {
-  position: absolute;
-  min-height: 100vh;
-  max-width: 1024px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: indianred;
 }
 
 header {

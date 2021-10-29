@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div v-if="isLoading" class="loading">
-      <span></span>
+      <span>
+        <h1>Training Project</h1>
+      </span>
     </div>
     <div v-else class="app">
       <Modal
@@ -10,6 +12,7 @@
         :APIkey="APIkey"
         :cities="cities"
       />
+
       <Navigation
         v-on:add-city="toggleModal"
         v-on:edit-city="toggleEdit"
@@ -17,6 +20,7 @@
         :isDay="isDay"
         :isNight="isNight"
       />
+
       <router-view
         :isDay="isDay"
         :isNight="isNight"
@@ -183,6 +187,7 @@ export default {
     height: 60px;
     margin: 0 auto;
     border: 2px solid transparent;
+    color: indianred;
     border-top-color: #142a5f;
     border-radius: 50%;
     animation: spin ease 1000ms infinite;

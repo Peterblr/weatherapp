@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <div v-if="loading" class="loading">
-      <span> </span>
+      <span>
+        <h1>Training Project</h1>
+      </span>
     </div>
     <div v-else class="weather" :class="{ day: isDay, night: isNight }">
       <div class="weather-wrap">
