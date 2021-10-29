@@ -30,7 +30,7 @@
         }}</span>
         <span class="feels-like"
           >Feels like
-          {{ Math.round(this.currentWeather.main.feels_like) }}&deg;</span
+          {{ Math.round(this.currentWeather.main.feels_like) - 32 }}&deg;</span
         >
       </div>
       <div class="weather-icon">
