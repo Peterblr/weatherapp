@@ -12,6 +12,7 @@
         />
         <HourlyWeather :forecast="forecast" />
         <WeeklyForecast :forecast="forecast" />
+        <AdditionalInfo :currentWeather="currentWeather" />
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ import db from "../firebase/firebaseinit";
 import CurrentWeather from "../components/CurrentWeather.vue";
 import HourlyWeather from "../components/HourlyWeather";
 import WeeklyForecast from "../components/WeeklyForecast";
+import AdditionalInfo from "../components/AdditionalInfo";
 
 export default {
   name: "Weather",
@@ -31,6 +33,7 @@ export default {
     CurrentWeather,
     HourlyWeather,
     WeeklyForecast,
+    AdditionalInfo,
   },
   data() {
     return {
