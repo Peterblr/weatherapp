@@ -50,6 +50,17 @@ export default {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+.training-project {
+  position: absolute;
+  min-height: 100vh;
+  max-width: 1024px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: indianred;
+}
+
 header {
   z-index: 99;
   position: fixed;

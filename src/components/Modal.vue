@@ -1,10 +1,15 @@
 <template>
   <div @click="closeModal" class="modal" ref="modal">
-      <div class="modal-wrap" ref="modalWrap">
-          <label for="city-name">Enter Location:</label>
-          <input type="text" name="city-name" placeholder="Search By City Name" v-model="city">
-          <button @click="addCity">Add</button>
-      </div>
+    <div class="modal-wrap" ref="modalWrap">
+      <label for="city-name">Enter Location:</label>
+      <input
+        type="text"
+        name="city-name"
+        placeholder="Search By City Name"
+        v-model="city"
+      />
+      <button @click="addCity">Add</button>
+    </div>
   </div>
 </template>
 
@@ -13,38 +18,49 @@ import axios from "axios";
 import db from "../firebase/firebaseinit";
 
 export default {
-    name: "modal",
-    props: ['APIkey'],
+  name: "modal",
+  props: ["APIkey", "cities"],
 
-    data() {
-        return {
-            city: "",
-        }
+  data() {
+    return {
+      city: "",
+    };
+  },
+  methods: {
+    closeModal(e) {
+      if (e.target === this.$refs.modal) {
+        this.$emit("close-modal");
+      }
     },
-    methods: {
-        closeModal(e) {
-            if (e.target === this.$refs.modal) {
-            this.$emit("close-modal");
-
-            }
-        },
-        async addCity() {
-            if (this.city === "") {
-                alert ("field cannot be empty");
-            } else {
-                const res = await axios.get(
-               `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`);
-               const data = await res.data;
-               db.collection('cities').doc().set({
-                   city: this.city,
-                   currentWeather: data
-               }).then(() => {
-                   this.$emit("close-modal");
-               });
-            }
+    async addCity() {
+      if (this.city === "") {
+        alert("field cannot be empty");
+      } else if (
+        this.cities.some((res) => res.city === this.city.toLowerCase())
+      ) {
+        alert(`${this.city} already exists!`);
+      } else {
+        try {
+          const res = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`
+          );
+          const data = await res.data;
+          db.collection("cities")
+            .doc()
+            .set({
+              city: this.city.toLowerCase(),
+              currentWeather: data,
+            })
+            .then(() => {
+              this.$emit("close-modal");
+            });
+        } catch {
+          alert(`${this.city} does not exist, pleace try again!`);
         }
-    }
-}
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -66,7 +82,8 @@ export default {
     width: 80%;
     padding: 20px;
     background-color: #31363d;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
     input {
       color: #fff;
       border: none;
@@ -85,7 +102,8 @@ export default {
       padding: 6px 20px;
       border-radius: 8px;
       border: none;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
   }
 }
