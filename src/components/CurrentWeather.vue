@@ -4,7 +4,7 @@
       <div class="weather-info">
         <span class="city">{{ this.currentWeather.name }}</span>
         <span class="current-temperature">{{
-          Math.round(this.currentWeather.main.temp) - 32
+          Math.round((this.currentWeather.main.temp - 32) * 5 / 9)
         }}</span>
 
         <div class="high-low-temperatures">
@@ -12,7 +12,7 @@
             <i class="fas fa-chevron-up"></i>
             <span
               >{{
-                Math.round(this.currentWeather.main.temp_max) - 32
+                Math.round((this.currentWeather.main.temp_max - 32) * 5 / 9)
               }}&deg;</span
             >
           </div>
@@ -20,7 +20,7 @@
             <i class="fas fa-chevron-down"></i>
             <span
               >{{
-                Math.round(this.currentWeather.main.temp_min) - 32
+                Math.round((this.currentWeather.main.temp_min - 32) * 5 / 9)
               }}&deg;</span
             >
           </div>
@@ -30,7 +30,9 @@
         }}</span>
         <span class="feels-like"
           >Feels like
-          {{ Math.round(this.currentWeather.main.feels_like) - 32 }}&deg;</span
+          {{
+            Math.round((this.currentWeather.main.feels_like - 32) * 5 / 9)
+          }}&deg;</span
         >
       </div>
       <div class="weather-icon">

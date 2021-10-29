@@ -16,7 +16,7 @@
         alt=""
       />
     </span>
-    <span> {{ Math.round(this.time.temp) - 32 }}&deg;</span>
+    <span> {{ Math.round(((this.time.temp - 32) * 5) / 9) }}&deg;</span>
   </div>
 </template>
 

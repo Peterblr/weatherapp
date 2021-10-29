@@ -11,6 +11,7 @@
           :currentWeather="currentWeather"
         />
         <HourlyWeather :forecast="forecast" />
+        <WeeklyForecast :forecast="forecast" />
       </div>
     </div>
   </div>
@@ -21,6 +22,7 @@ import axios from "axios";
 import db from "../firebase/firebaseinit";
 import CurrentWeather from "../components/CurrentWeather.vue";
 import HourlyWeather from "../components/HourlyWeather";
+import WeeklyForecast from "../components/WeeklyForecast";
 
 export default {
   name: "Weather",
@@ -28,6 +30,7 @@ export default {
   components: {
     CurrentWeather,
     HourlyWeather,
+    WeeklyForecast,
   },
   data() {
     return {
